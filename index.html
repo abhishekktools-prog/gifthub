@@ -1,66 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Quick Quiz</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <title>Quick Earning Quiz — GiftHub</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
-    .question { font-size: 20px; margin-bottom: 20px; }
-    .answers button { 
-      display: block; margin: 10px auto; padding: 10px 20px; 
-      font-size: 16px; cursor: pointer; 
-    }
-    #result { margin-top: 30px; font-size: 22px; color: green; }
+    body{font-family:Arial,Helvetica,sans-serif;background:#f6f8fb;margin:0;padding:20px;color:#222;text-align:center}
+    .wrap{max-width:700px;margin:20px auto;background:#fff;padding:25px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+    h1{font-size:22px;margin:12px 0;color:#111}
+    p.lead{color:#444;margin:10px 0 20px;font-size:16px}
+    .btn,.opt{display:inline-block;margin:8px auto;padding:12px 20px;font-size:16px;
+      border-radius:8px;text-decoration:none;cursor:pointer;font-weight:600}
+    .opt{background:#f9fafc;border:1px solid #e2e8f0;color:#111;max-width:300px;width:100%}
+    .opt:hover{background:#edf2f7}
+    .btn{background:#0070f3;color:#fff}
+    .btn:hover{background:#0059c1}
+    #result{margin-top:20px}
+    .small{font-size:13px;color:#666;margin-top:10px}
   </style>
 </head>
 <body>
-  <h1>Quick Quiz</h1>
-  <div id="quiz-container">
-    <div class="question" id="question"></div>
-    <div class="answers" id="answers"></div>
-    <button id="next-btn" style="display:none;">Next</button>
+  <div class="wrap">
+    <!-- Top image -->
+    <img src="https://i.imgur.com/6rKxq9B.png" alt="Gift Cards" style="max-width:120px;margin:10px auto;display:block"/>
+    
+    <h1>Thousands of people are already earning extra money 💸</h1>
+    <p class="lead">Answer a few quick questions to check if you qualify 👇</p>
+
+    <div id="quizArea">
+      <div id="qBox">
+        <p><strong>Q1:</strong> How old are you?</p>
+        <a class="opt" href="#" onclick="nextQ('18-24')">18–24</a><br>
+        <a class="opt" href="#" onclick="nextQ('25-34')">25–34</a><br>
+        <a class="opt" href="#" onclick="nextQ('35-44')">35–44</a><br>
+        <a class="opt" href="#" onclick="nextQ('45+')">45+</a>
+      </div>
+    </div>
+
+    <div id="loading" style="display:none">
+      <h2>Checking availability in your area…</h2>
+      <p>Please wait...</p>
+    </div>
+
+    <div id="result" style="display:none">
+      <h2>🎉 Congratulations!</h2>
+      <p class="lead">You qualify to join others already earning online. Hurry — spots are limited.</p>
+      <a id="startBtn" class="btn" href="https://trianglerockers.com/1840277" target="_blank">Start Now →</a>
+      <div class="small">No payment required • Works on mobile • Takes 1–10 mins</div>
+    </div>
   </div>
-  <div id="result"></div>
 
-  <script>
-    const quiz = [
-      { q: "Q1: Do you want to earn rewards fast?", a: ["Yes", "No"] },
-      { q: "Q2: Would you spend 5 minutes daily for rewards?", a: ["Of course", "Maybe not"] },
-      { q: "Q3: Ready to get started now?", a: ["Yes, show me!", "Later"] }
-    ];
+<script>
+  const SMART = "https://trianglerockers.com/1840277";
+  function srcParam(){ return window.location.search ? window.location.search : ''; }
+  document.getElementById('startBtn').href = SMART + srcParam();
 
-    let current = 0;
-    const questionEl = document.getElementById("question");
-    const answersEl = document.getElementById("answers");
-    const nextBtn = document.getElementById("next-btn");
-    const resultEl = document.getElementById("result");
+  let step = 1;
+  const qBox = document.getElementById('qBox');
 
-    function loadQuestion() {
-      let q = quiz[current];
-      questionEl.textContent = q.q;
-      answersEl.innerHTML = "";
-      q.a.forEach(answer => {
-        let btn = document.createElement("button");
-        btn.textContent = answer;
-        btn.onclick = () => {
-          nextBtn.style.display = "inline-block";
-        };
-        answersEl.appendChild(btn);
-      });
-      nextBtn.style.display = "none";
+  function nextQ(val){
+    step++;
+    if(step === 2){
+      qBox.innerHTML = `
+        <p><strong>Q2:</strong> How much extra money would you like to make per week?</p>
+        <a class="opt" href="#" onclick="nextQ('100-250')">$100–$250</a><br>
+        <a class="opt" href="#" onclick="nextQ('250-500')">$250–$500</a><br>
+        <a class="opt" href="#" onclick="nextQ('500+')">$500+</a>
+      `;
+    } else if(step === 3){
+      qBox.innerHTML = `
+        <p><strong>Q3:</strong> Do you prefer using phone or laptop?</p>
+        <a class="opt" href="#" onclick="nextQ('phone')">Phone</a><br>
+        <a class="opt" href="#" onclick="nextQ('laptop')">Laptop</a>
+      `;
+    } else {
+      document.getElementById('quizArea').style.display = 'none';
+      document.getElementById('loading').style.display = 'block';
+      setTimeout(()=>{
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+      },1500);
     }
-
-    nextBtn.onclick = () => {
-      current++;
-      if (current < quiz.length) {
-        loadQuestion();
-      } else {
-        document.getElementById("quiz-container").style.display = "none";
-        resultEl.innerHTML = "✅ Congrats! <br> <a href='https://trianglerockers.com/1840277' target='_blank'>Click here to claim your reward!</a>";
-      }
-    };
-
-    loadQuestion();
-  </script>
+  }
+</script>
 </body>
 </html>
