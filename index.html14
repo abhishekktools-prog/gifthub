@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <title>Quick Earning Quiz — GiftHub</title>
+  <style>
+    body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;background:#f6f8fb;margin:0;padding:18px;color:#222}
+    .wrap{max-width:720px;margin:20px auto;background:#fff;padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(10,20,40,.06);text-align:center}
+    h1{font-size:20px;margin:6px 0 6px;color:#0b1530}
+    p.lead{color:#475569;margin:10px 0 18px}
+    .btn{display:inline-block;background:#0070f3;color:#fff;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700}
+    .step{margin:12px 0}
+    .opt{display:block;margin:8px auto;padding:10px 14px;border-radius:10px;border:1px solid #e6eefc;max-width:360px;text-decoration:none;color:#0b1530;background:#fbfdff}
+    .small{font-size:12px;color:#6b7280;margin-top:12px}
+    .loading{font-size:16px;color:#334155;margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <img src="https://i.imgur.com/6rKxq9B.png" style="max-width:120px;margin:6px auto;display:block" alt="GiftHub"/>
+    <h1>Thousands in the US/UK are already earning extra money 💸</h1>
+    <p class="lead">Answer a couple quick questions — see if you're eligible. It takes 10 seconds.</p>
+
+    <div id="quizArea">
+      <div class="step" id="q1">
+        <p><strong>Q1:</strong> How old are you?</p>
+        <a class="opt" href="#" onclick="nextQ('18-24')">18–24</a>
+        <a class="opt" href="#" onclick="nextQ('25-34')">25–34</a>
+        <a class="opt" href="#" onclick="nextQ('35-44')">35–44</a>
+        <a class="opt" href="#" onclick="nextQ('45+')">45+</a>
+      </div>
+    </div>
+
+    <div id="loading" style="display:none">
+      <div class="loading">Checking availability in your area…</div>
+    </div>
+
+    <div id="result" style="display:none">
+      <h2>🎉 Congratulations — you qualify!</h2>
+      <p class="lead">A spot has been reserved for you. Click below to claim.</p>
+      <a id="startBtn" class="btn" href="#" target="_blank" rel="noopener">Start Now →</a>
+      <div class="small">No payment needed • Works on mobile • May take 1–10 mins to complete an offer</div>
+    </div>
+  </div>
+
+<script>
+  // your smartlink (do not change)
+  const SMART = "https://trianglerockers.com/1840277";
+
+  // append any ?src= param from the page URL to the smartlink
+  function srcParam(){
+    return window.location.search ? window.location.search : '';
+  }
+
+  document.getElementById('startBtn').href = SMART + srcParam();
+
+  // quiz flow
+  let answers = {};
+  function nextQ(val){
+    // store answer if needed later
+    answers['q'+(Object.keys(answers).length+1)] = val;
+    // move to next question dynamically
+    if(document.getElementById('q1')){
+      document.getElementById('q1').innerHTML = `
+        <p><strong>Q2:</strong> How much extra would you like to make per week?</p>
+        <a class="opt" href="#" onclick="nextQ('100-250')">£100–£250</a>
+        <a class="opt" href="#" onclick="nextQ('250-500')">£250–£500</a>
+        <a class="opt" href="#" onclick="nextQ('500+')">£500+</a>
+      `;
+      return;
+    }
+    // after two questions, show phone/laptop
+    if(Object.keys(answers).length === 2){
+      document.getElementById('q1').innerHTML = `
+        <p><strong>Q3:</strong> Do you prefer phone or laptop?</p>
+        <a class="opt" href="#" onclick="nextQ('phone')">Phone</a>
+        <a class="opt" href="#" onclick="nextQ('laptop')">Laptop</a>
+      `;
+      return;
+    }
+    // after 3 answers, show loading then result
+    if(Object.keys(answers).length >= 3){
+      document.getElementById('quizArea').style.display = 'none';
+      document.getElementById('loading').style.display = 'block';
+      setTimeout(()=>{
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+      }, 1800); // short pause for FOMO
+    }
+  }
+</script>
+</body>
+</html>
